@@ -87,7 +87,7 @@ dataset
             │   └── video
             │       └── BS3_excercise_videos.mp4
             ├── BS4
-            │   ├── BS-4 팔 앞으로 올리기 스트레칭.yaml
+            │   ├── BS-4.yaml
             │   └── video
             │       └── BS4_excercise_videos.mp4
             ├── BS5
