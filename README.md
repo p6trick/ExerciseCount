@@ -114,6 +114,9 @@ pip install torch --> cuda version check!
 pip install tqdm
 pip install numpy==1.23.0
 pip install mediapipe
+pip install requests
+pip install pandas
+pip install pyyaml
 ```
 ### Testing
 ```bash
