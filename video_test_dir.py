@@ -31,7 +31,7 @@ def log_start(cat_name, args):
     print(f'Max distance: {args.max_dis} || Mean distance: {args.mean_dis}')
     print("-"*60)
 
-def make_csv(args):
+def make_csv(args, activity_name):
     if not os.path.isdir(os.path.join(f'./{args.result}', f'{args.type}_{args.direction}')): 
         os.mkdir(os.path.join(f'./{args.result}', f'{args.type}_{args.direction}'))
     csv_path = os.path.join(f'./{args.result}', f'{args.type}_{args.direction}') # ./result/patient_right
@@ -269,7 +269,8 @@ def count(result_dict, activity_name, video_path, label_idx):
                     'full_count': full_count,
                     'pred_count': cnt,
                     'count_log': txt ,
-                    'Acc': (cnt/full_count)*100
+                    'Acc': (cnt/full_count)*100,
+                    
                 })
         all_count += cnt
         all_label += full_count
@@ -294,7 +295,7 @@ if __name__ == "__main__":
     parser.add_argument("--max_dis", type=int, help="Max distance", default=20)
     parser.add_argument("--mean_dis", type=int, help="Mean distance", default=10)
     parser.add_argument("--act_name", type=str, help="Activity name", default='')
-    parser.add_argument("--csv_ver", type=str, help="Activity name", default='0')
+    parser.add_argument("--csv_ver", type=str, help="Csv version", default='0')
 
 
     args = parser.parse_args()
@@ -324,7 +325,7 @@ if __name__ == "__main__":
                 
                 activity_name = cat.split('/')[-1] # BB1
 
-                csv_path = make_csv(args)
+                csv_path = make_csv(args, activity_name)
 
                 video_path = os.path.join(cat, 'video','*')
                 video_path = glob(video_path)
@@ -354,7 +355,7 @@ if __name__ == "__main__":
             
             activity_name = cat.split('/')[-1] # BB1
 
-            csv_path = make_csv(args)
+            csv_path = make_csv(args, activity_name)
 
             video_path = os.path.join(cat, 'video','*')
             video_path = glob(video_path)
@@ -381,12 +382,14 @@ if __name__ == "__main__":
             'Acc': (all_count/all_label)*100,
             'total_pred_count': all_count,
             'total_label_count': all_label
+            
         }
 
         with open(os.path.join(csv_path, activity_name,'log.json'), 'w', encoding="utf-8") as f:
             json.dump(result_dict, f, indent='\t')   
     
-        total_result[activity_name] = (all_count/all_label)*100
+        total_result[f'ver.{args.csv_ver}'][activity_name] = (all_count/all_label)*100
+        
         print("="*60)
     with open(os.path.join(csv_path,'total_log.json'), 'w', encoding="utf-8") as f:
             json.dump(total_result, f, indent='\t') 
