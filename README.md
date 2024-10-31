@@ -118,9 +118,11 @@ pip install requests
 pip install pandas
 pip install pyyaml
 ```
-### Testing
+### Testing all activity
 ```bash
-python video_test_dir.py --data_dir "dataset_path" --type "patient_or_not_patient" --direction "left_or_right" --result "result_folder_name" --en_th "enter_threshold_float" --ex_th "exit_threshold_float" --max_dis "max_distance_int" --mean_dis "mean_distance_int" 
+python video_test_dir.py --data_dir "dataset_path" --type "patient_or_not_patient" --direction "left_or_right" \\
+--result "result_folder_name" --en_th "enter_threshold_float" --ex_th "exit_threshold_float" \\
+--max_dis "max_distance_int" --mean_dis "mean_distance_int" --csv_ver "version"
 
 ```
 ### Example
@@ -130,7 +132,27 @@ python video_test_dir.py --data_dir "dataset_path" --type "patient_or_not_patien
 - exit_threshold: <span style="color:red">0.1
 - max_distance: <span style="color:red">20
 - mean_distance: <span style="color:red">10
+- csv_ver: <span style="color:red">0
 ```bash
-python video_test_dir.py --data_dir ./dataset --type patient --direction right --result ./result --en_th 9.9 --ex_th 0.1 --max_dis 20 --mean_dis 10 
+python video_test_dir.py --data_dir ./dataset --type patient --direction right --result ./result --en_th 9.9 --ex_th 0.1 --max_dis 20 --mean_dis 10 --csv_ver 0
+```
+### Testing each activity
+```bash
+python video_test_dir.py --data_dir "dataset_path" --type "patient_or_not_patient" --direction "left_or_right" \\
+--result "result_folder_name" --en_th "enter_threshold_float" --ex_th "exit_threshold_float" \\
+--max_dis "max_distance_int" --mean_dis "mean_distance_int" --csv_ver "version" --act_name "activity name"
+
+```
+### Example
+- type: <span style="color:red"> patient
+- direction: <span style="color:red">right
+- enter_threshold: <span style="color:red">9.9
+- exit_threshold: <span style="color:red">0.1
+- max_distance: <span style="color:red">20
+- mean_distance: <span style="color:red">10
+- csv_ver: <span style="color:red">0
+- act_name: <span style="color:red">BB1
+```bash
+python video_test_dir.py --data_dir ./dataset --type patient --direction right --result ./result --en_th 9.9 --ex_th 0.1 --max_dis 20 --mean_dis 10 --csv_ver 0 --act_name BB1
 ```
 
