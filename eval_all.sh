@@ -1,11 +1,12 @@
 #!/bin/bash
 
 result=ver2_result
-csv_ver=0
+csv_ver=2
+data_dir=./ver2_dataset
 
 
 python video_test_dir.py \
---data_dir ./dataset \
+--data_dir $data_dir \
 --type patient \
 --direction left \
 --result $result \
@@ -16,7 +17,7 @@ python video_test_dir.py \
 --csv_ver $csv_ver
 
 python video_test_dir.py \
---data_dir ./dataset \
+--data_dir $data_dir \
 --type patient \
 --direction right \
 --result $result \
@@ -27,7 +28,7 @@ python video_test_dir.py \
 --csv_ver $csv_ver 
 
 python video_test_dir.py \
---data_dir ./dataset \
+--data_dir $data_dir \
 --type not_patient \
 --direction left \
 --result $result \
@@ -38,7 +39,7 @@ python video_test_dir.py \
 --csv_ver $csv_ver
 
 python video_test_dir.py \
---data_dir ./dataset \
+--data_dir $data_dir \
 --type not_patient \
 --direction right \
 --result $result \

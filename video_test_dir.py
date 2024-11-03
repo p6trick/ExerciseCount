@@ -318,7 +318,8 @@ if __name__ == "__main__":
             if cat.split('/')[-1] in args.act_name:
                 print("="*60)
                 print(f'Each Activity: {cat}')
-
+                print(f"Version: {args.csv_ver}")
+                print(f"Dataset Path: {args.data_dir}")
                 log_start(cat, args)
 
                 result_dict['Activity'] = {}
@@ -350,6 +351,8 @@ if __name__ == "__main__":
         else:
             print("="*60)   
             print("All Activity")
+            print(f"Version: {args.csv_ver}")
+            print(f"Dataset Path: {args.data_dir}")
             log_start(cat, args)
             result_dict['Activity'] = {}
             
