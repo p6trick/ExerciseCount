@@ -27,7 +27,7 @@ dataset
 │   │       ├── BS6.csv
 │   │       └── BS7.csv
 │   └── other versions
-|
+│ s
 └── data
     ├── left
     │   └── not_patient
@@ -157,5 +157,10 @@ python video_test_dir.py --data_dir "dataset_path" --type "patient_or_not_patien
 - act_name: <span style="color:red">BB1
 ```bash
 python video_test_dir.py --data_dir ./dataset --type patient --direction right --result ./result --en_th 9.9 --ex_th 0.1 --max_dis 20 --mean_dis 10 --csv_ver 0 --act_name BB1
+```
+
+### sh file
+```bash
+sh eval_all.sh
 ```
 
