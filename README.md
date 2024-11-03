@@ -27,7 +27,7 @@ dataset
 │   │       ├── BS6.csv
 │   │       └── BS7.csv
 │   └── other versions
-│ s
+│
 └── data
     ├── left
     │   └── not_patient
