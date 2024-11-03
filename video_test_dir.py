@@ -349,6 +349,8 @@ if __name__ == "__main__":
                 label_idx = sorted(label.keys())
 
                 result_dict, all_count, all_label = count(result_dict, activity_name, video_path, label_idx)
+            else:
+                continue
         else:
             print("="*60)   
             print("All Activity")
