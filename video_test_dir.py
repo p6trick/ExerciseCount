@@ -22,6 +22,7 @@ def init_dict(args):
         "Mean distance": args.mean_dis
     }
     total_result = {}
+    total_result[f'Version:{args.csv_ver}'] = {}
     return result_dict, total_result
 
 def log_start(cat_name, args):
@@ -338,7 +339,7 @@ if __name__ == "__main__":
                     result_dict['Activity'][activity_name].append({
                         'Empty': True
                     })
-                    total_result[activity_name] ='Empty'
+                    total_result[f'Version:{args.csv_ver}'][activity_name] ='Empty'
                     continue
                 else:
                     yaml_path = yaml_path[0]
@@ -370,7 +371,7 @@ if __name__ == "__main__":
                 result_dict['Activity'][activity_name].append({
                     'Empty': True
                 })
-                total_result[activity_name] ='Empty'
+                total_result[f'Version:{args.csv_ver}'][activity_name] ='Empty'
                 continue
             else:
                 yaml_path = yaml_path[0]
@@ -391,7 +392,7 @@ if __name__ == "__main__":
         with open(os.path.join(csv_path, activity_name,'log.json'), 'w', encoding="utf-8") as f:
             json.dump(result_dict, f, indent='\t')   
     
-        total_result[f'ver.{args.csv_ver}'][activity_name] = (all_count/all_label)*100
+        total_result[f'Version:{args.csv_ver}'][activity_name] = (all_count/all_label)*100
         
         print("="*60)
     with open(os.path.join(csv_path,'total_log.json'), 'w', encoding="utf-8") as f:
