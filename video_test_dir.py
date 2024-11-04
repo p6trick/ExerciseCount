@@ -176,11 +176,18 @@ def count(result_dict, activity_name, video_path, label_idx):
                         A_repetitions_count = A_repetition_counter(pose_classification_filtered)
                         a_flag = A_repetitions_count
 
+                        B_repetitions_count = B_repetition_counter(pose_classification_filtered)
+                        b_flag = B_repetitions_count
+
+
                         if a_flag != a_chk:
                             a_chk = a_flag
                             A_cnt = True
                             txt += "(A-"
-                
+                        elif b_flag != b_chk:
+                            b_chk = b_flag
+                            B_cnt = True
+                            txt += "(B-"
                     else:
                         # No pose => no classification on current frame.
                         pose_classification = None
@@ -193,6 +200,7 @@ def count(result_dict, activity_name, video_path, label_idx):
                         # Don't update the counter presuming that person is 'frozen'. Just
                         # take the latest repetitions count.
                         A_repetitions_count = A_repetition_counter.n_repeats
+                
 
                 elif A_cnt == True and B_cnt == False:
                     if pose_landmarks is not None:
@@ -217,6 +225,43 @@ def count(result_dict, activity_name, video_path, label_idx):
                             b_chk = b_flag
                             B_cnt = True
                             txt += "B)"
+            
+                    else:
+                        # No pose => no classification on current frame.
+                        pose_classification = None
+
+                        # Still add empty classification to the filter to maintaing correct
+                        # smoothing for future frames.
+                        pose_classification_filtered = pose_classification_filter(dict())
+                        pose_classification_filtered = None
+
+                        # Don't update the counter presuming that person is 'frozen'. Just
+                        # take the latest repetitions count.
+                        B_repetitions_count = B_repetition_counter.n_repeats
+
+                elif A_cnt == False and B_cnt == True:
+                    if pose_landmarks is not None:
+                    # Get landmarks.
+                        frame_height, frame_width = output_frame.shape[0], output_frame.shape[1]
+                        pose_landmarks = np.array([[lmk.x * frame_width, lmk.y * frame_height, lmk.z * frame_width]
+                                                    for lmk in pose_landmarks.landmark], dtype=np.float32)
+                        assert pose_landmarks.shape == (33, 3), 'Unexpected landmarks shape: {}'.format(pose_landmarks.shape)
+
+                        # Classify the pose on the current frame.
+                        pose_classification = pose_classifier(pose_landmarks)
+                        
+                        # Smooth classification using EMA.
+                        pose_classification_filtered = pose_classification_filter(pose_classification)
+
+                        # Count repetitions.
+                        A_repetitions_count = A_repetition_counter(pose_classification_filtered)
+                        a_flag = A_repetitions_count
+                        # print(f'B: {B_repetitions_count}')
+                        # print(f'b flag: {b_flag}')
+                        if a_flag != a_chk:
+                            a_chk = a_flag
+                            A_cnt = True
+                            txt += "A)"
             
                     else:
                         # No pose => no classification on current frame.
@@ -270,8 +315,7 @@ def count(result_dict, activity_name, video_path, label_idx):
                     'full_count': full_count,
                     'pred_count': cnt,
                     'count_log': txt ,
-                    'Acc': (cnt/full_count)*100,
-                    
+                    'Acc': (cnt/full_count)*100
                 })
         all_count += cnt
         all_label += full_count
@@ -283,7 +327,6 @@ def count(result_dict, activity_name, video_path, label_idx):
         print(f'Acc: {(cnt/full_count)*100:.2f}%')
         print("-"*60)
     return result_dict, all_count, all_label
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
